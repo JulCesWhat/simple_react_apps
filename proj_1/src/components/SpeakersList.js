@@ -1,6 +1,6 @@
 import Speaker from './Speaker';
 
-const SpeakersList = ({ data }) => {
+const SpeakersList = ({ data, showSession }) => {
 
     return (
         <div className="container speakers-list">
@@ -8,7 +8,7 @@ const SpeakersList = ({ data }) => {
                 {
                     data.map((item) => {
                         return (
-                            <Speaker key={item.id} item={item} />
+                            <Speaker key={item.id} item={item} showSession={showSession} />
                         )
                     })
                 }

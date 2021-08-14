@@ -48,14 +48,16 @@ const SpeakerDemographics = ({ first, last, bio, company, twitterHandle }) => {
     );
 };
 
-const Speaker = ({ item }) => {
+const Speaker = ({ item, showSession}) => {
     const { id, bio, first, last, favorite, twitterHandle, company, sessions } = item
     return (
         <div key={id} className="col-sx-12 col-sm-12 col-md-6 col-lg-4">
             <div className="card card-height p-4 mt-4">
                 <SpeakerImage id={id} first={first} last={last} />
                 <SpeakerDemographics {...item} />
-                <Sessions sessions={sessions} />
+                {
+                    showSession ? <Sessions sessions={sessions} /> : null
+                }
             </div>
         </div>
     );
