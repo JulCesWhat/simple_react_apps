@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useTheme = ({ initialTheme }) => {
+const useTheme = (initialTheme) => {
     const [theme, setTheme] = useState(initialTheme);
 
     const validateTheme = (themeValue) => {

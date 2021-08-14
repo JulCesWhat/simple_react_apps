@@ -3,6 +3,7 @@ import ReactPlaceHolder from 'react-placeholder';
 import useRequestDelay, { REQUEST_STATUS } from '../hooks/useRequestDelay';
 import { data } from '../../SpeakerData';
 import { useContext } from 'react';
+import { SpeakerFilterContext } from '../contexts/SpeakerFilterContext';
 
 const SpeakersList = () => {
     const {
@@ -11,14 +12,13 @@ const SpeakersList = () => {
         error,
         updateRecord
     } = useRequestDelay(2000, data);
+    const { eventYear, searchQuery } = useContext(SpeakerFilterContext);
 
     if (requestStatus === REQUEST_STATUS.FAILURE) return (
         <div className="text-danger">
             Error <b>Loading data failied {error}</b>
         </div>
     );
-
-    // if (isLoading) return (<div>Loading...</div>);
 
     return (
         <div className="container speakers-list">
@@ -29,7 +29,10 @@ const SpeakersList = () => {
                 ready={requestStatus === REQUEST_STATUS.SUCCESS}>
                 <div className="row">
                     {
-                        speakersData.map((item) => {
+                        speakersData
+                        .filter((sp) => (sp.first.toLowerCase().includes(searchQuery)) || sp.last.toLowerCase().includes(searchQuery))
+                        .filter((sp) => (sp.sessions.some((ses) => (ses.eventYear === eventYear))))
+                        .map((item) => {
                             return (
                                 <Speaker key={item.id}
                                     item={item}
