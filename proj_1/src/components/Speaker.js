@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const Sessions = ({ sessions }) => {
     return (
         <div className="sessionBox card h-250">
@@ -23,11 +25,21 @@ const SpeakerImage = ({ id, first, last }) => {
 }
 
 const SpeakerFavorite = ({ favorite, onFavoriteToggle }) => {
+    const [inTrans, setInTrans] = useState(false);
+
+    const callback = () => {
+        setInTrans(false);
+    };
+
     return (
         <div className="action padB1">
-            <span onClick={onFavoriteToggle}>
+            <span onClick={() => {
+                setInTrans(true);
+                onFavoriteToggle(callback)
+            }}>
                 <i className={favorite ? "fa fa-star orange" : "fa fa-star-o oragne"}></i>
                 {" "}Favorite{" "}
+                { inTrans ? <span className="fas fa-circle-notch fa-spin"></span> : null }
             </span>
         </div>
     )
