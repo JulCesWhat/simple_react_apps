@@ -1,4 +1,9 @@
-const ExpeakersToolbar = ({ theme, setTheme, showSession, setShowSession }) => {
+import { useContext } from 'react';
+import { ThemeContext } from '../contexts/ThemeContext';
+
+const ExpeakersToolbar = ({ showSession, setShowSession }) => {
+    const { theme, setTheme } = useContext(ThemeContext);
+
     return (
         <section className="toolbar dark-theme-header">
             <div className="container">

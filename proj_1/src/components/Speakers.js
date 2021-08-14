@@ -7,7 +7,7 @@ const Speakers = ({ theme, setTheme }) => {
 
     return (
         <>
-            <SpeakersToolbar theme={theme} setTheme={setTheme} showSession={showSession} setShowSession={setShowSession} />
+            <SpeakersToolbar showSession={showSession} setShowSession={setShowSession} />
             <SpeakersList showSession={showSession} />
         </>
     );
