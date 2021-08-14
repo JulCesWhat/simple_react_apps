@@ -1,34 +1,43 @@
 import Speaker from './Speaker';
-import { data } from '../../SpeakerData';
-import { useState } from 'react';
-
+import ReactPlaceHolder from 'react-placeholder';
+import useRequestSpeakers, { REQUEST_STATUS } from '../hooks/useRequestSpeakers';
 
 const SpeakersList = ({ showSession }) => {
-    const [speakesData, setSpeakersData] = useState(data);
 
+    const {
+        speakesData,
+        requestStatus,
+        error,
+        onFavoriteToggle
+    } = useRequestSpeakers(2000);
 
-    const onFavoriteToggle = (id) => {
-        const found = speakesData.find((sp) => (sp.id === id));
-        const newFound = { ...found, favorite: !found.favorite };
-        const speakers = speakesData.map((sp) => (
-            sp.id === id ? newFound : sp
-        ));
-        setSpeakersData(speakers);
-    }
+    if (requestStatus === REQUEST_STATUS.FAILURE) return (
+        <div className="text-danger">
+            Error <b>Loading data failied {error}</b>
+        </div>
+    );
+
+    // if (isLoading) return (<div>Loading...</div>);
 
     return (
         <div className="container speakers-list">
-            <div className="row">
-                {
-                    speakesData.map((item) => {
-                        return (
-                            <Speaker key={item.id} item={item} showSession={showSession} onFavoriteToggle={() => (onFavoriteToggle(item.id))} />
-                        )
-                    })
-                }
-            </div>
+            <ReactPlaceHolder
+                type="media"
+                rows="15"
+                className="speakerslist-placeholder"
+                ready={requestStatus === REQUEST_STATUS.SUCCESS}>
+                <div className="row">
+                    {
+                        speakesData.map((item) => {
+                            return (
+                                <Speaker key={item.id} item={item} showSession={showSession} onFavoriteToggle={() => (onFavoriteToggle(item.id))} />
+                            )
+                        })
+                    }
+                </div>
+            </ReactPlaceHolder>
         </div>
-    )
+    );
 }
 
 export default SpeakersList;
