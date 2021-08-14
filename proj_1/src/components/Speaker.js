@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { SpeakerFilterContext } from '../contexts/SpeakerContext';
 
 const Sessions = ({ sessions }) => {
     return (
@@ -39,7 +40,7 @@ const SpeakerFavorite = ({ favorite, onFavoriteToggle }) => {
             }}>
                 <i className={favorite ? "fa fa-star orange" : "fa fa-star-o oragne"}></i>
                 {" "}Favorite{" "}
-                { inTrans ? <span className="fas fa-circle-notch fa-spin"></span> : null }
+                {inTrans ? <span className="fas fa-circle-notch fa-spin"></span> : null}
             </span>
         </div>
     )
@@ -71,8 +72,10 @@ const SpeakerDemographics = ({ first, last, bio, company, twitterHandle, favorit
     );
 };
 
-const Speaker = ({ item, showSession, onFavoriteToggle }) => {
-    const { id, bio, first, last, favorite, twitterHandle, company, sessions } = item
+const Speaker = ({ item, onFavoriteToggle }) => {
+    const { showSession } = useContext(SpeakerFilterContext);
+    const { id, bio, first, last, favorite, twitterHandle, company, sessions } = item;
+
     return (
         <div key={id} className="col-sx-12 col-sm-12 col-md-6 col-lg-4">
             <div className="card card-height p-4 mt-4">
