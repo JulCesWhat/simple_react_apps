@@ -1,7 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, memo } from 'react';
 import { SpeakerFilterContext } from '../contexts/SpeakerFilterContext';
 import { SpeakerProvider, SpeakerContext } from '../contexts/SpeakerContext';
 import SpeakerDelete from './SpeakerDelete';
+import ErrorBoundary from './ErrorBoundary';
 
 const Sessions = () => {
     const { eventYear } = useContext(SpeakerFilterContext);
@@ -102,8 +103,23 @@ const SpeakerDemographics = () => {
     );
 };
 
-const Speaker = ({ item, updateRecord, insertRecord, deleteRecord }) => {
+const areEqualSpeaker = (prevProps, nextProps) => {
+    return (prevProps?.item?.favorite === nextProps?.item?.favorite);
+};
+
+const SpeakerNoErrorBoundary = memo(({ item, updateRecord, insertRecord, deleteRecord, showErrorCard }) => {
     const { showSessions } = useContext(SpeakerFilterContext);
+
+    if (showErrorCard) {
+        return (
+            <div className="col-sx-12 col-sm-12 col-md-6 col-lg-4">
+                <div className="card card-height p-4 mt-4">
+                    <img src="/images/speaker-99999.jpg" />
+                    <div><b>Error showing speaker!</b></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <SpeakerProvider speaker={item} updateRecord={updateRecord} insertRecord={insertRecord} deleteRecord={deleteRecord}>
@@ -119,6 +135,15 @@ const Speaker = ({ item, updateRecord, insertRecord, deleteRecord }) => {
             </div>
         </SpeakerProvider>
     );
+}, areEqualSpeaker);
+
+const Speaker = (props) => {
+    return (
+        <ErrorBoundary
+            errorUI={<SpeakerNoErrorBoundary showErrorCard={true}></SpeakerNoErrorBoundary>}>
+            <SpeakerNoErrorBoundary {...props}></SpeakerNoErrorBoundary>
+        </ErrorBoundary>
+    )
 }
 
 export default Speaker;
