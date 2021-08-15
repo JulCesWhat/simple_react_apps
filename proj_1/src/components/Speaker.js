@@ -139,10 +139,11 @@ const SpeakerNoErrorBoundary = memo(({ item, updateRecord, insertRecord, deleteR
 
 const Speaker = (props) => {
     return (
-        <ErrorBoundary
-            errorUI={<SpeakerNoErrorBoundary showErrorCard={true}></SpeakerNoErrorBoundary>}>
-            <SpeakerNoErrorBoundary {...props}></SpeakerNoErrorBoundary>
-        </ErrorBoundary>
+        // <ErrorBoundary
+        //     errorUI={<SpeakerNoErrorBoundary showErrorCard={true}></SpeakerNoErrorBoundary>}>
+        //     <SpeakerNoErrorBoundary {...props}></SpeakerNoErrorBoundary>
+        // </ErrorBoundary>
+        <SpeakerNoErrorBoundary {...props}></SpeakerNoErrorBoundary>
     )
 }
 
