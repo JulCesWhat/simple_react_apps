@@ -51,7 +51,52 @@ const useRequestDelay = (time, initialData = []) => {
         delayFunc();
     }
 
-    return { data, requestStatus, error, updateRecord };
+    const insertRecord = (record, doneCallback) => {
+        const originalData = [...data];
+        const newRecords = [...data, record]
+
+        const delayFunc = async () => {
+            try {
+                setData(newRecords);
+                await timeout(time);
+                if (doneCallback) {
+                    doneCallback();
+                }
+            } catch (e) {
+                setError(e);
+                if (doneCallback) {
+                    doneCallback();
+                }
+                setData(originalData);
+            }
+        }
+        delayFunc();
+    }
+
+    const deleteRecord = (record, doneCallback) => {
+        const originalData = [...data];
+        const newRecords = data.filter((d) => (d.id !== record.id));
+
+        const delayFunc = async () => {
+            try {
+                setData(newRecords);
+                await timeout(time);
+                if (doneCallback) {
+                    doneCallback();
+                }
+            } catch (e) {
+                setError(e);
+                if (doneCallback) {
+                    doneCallback();
+                }
+                setData(originalData);
+            }
+        }
+        delayFunc();
+    }
+
+
+    return { data, requestStatus, error, updateRecord, insertRecord, deleteRecord };
 }
 
 export default useRequestDelay;
