@@ -5,10 +5,13 @@ import Header from "./Header";
 import Products from './Products';
 import { Routes, Route } from 'react-router-dom';
 import Cart from './Cart';
-import Details from './Details';
-import Checkout from './Checkout';
+import Details from './Details.class';
+import Checkout from './Checkout.class';
+import { useCart } from './CartContext';
+
 
 export default function App() {
+  const { dispatch: emptyCart } = useCart();
   return (
     <>
       <div className="content">
@@ -19,7 +22,7 @@ export default function App() {
             <Route path="/:category" element={<Products />} />
             <Route path="/:category/:id" element={<Details />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout" element={<Checkout emptyCart={emptyCart} />} />
           </Routes>
         </main>
       </div>

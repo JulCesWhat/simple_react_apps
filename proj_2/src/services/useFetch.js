@@ -7,7 +7,7 @@ const useFetch = (url) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const isMounted = useRef(false);
-    
+
     useEffect(() => {
         isMounted.current = true;
         (async () => {
@@ -31,3 +31,8 @@ const useFetch = (url) => {
     return { data, error, loading };
 }
 export default useFetch;
+
+export function Fetch({ url, children }) {
+    const { data, loading, error } = useFetch(url);
+    return children(data, loading, error);
+}
