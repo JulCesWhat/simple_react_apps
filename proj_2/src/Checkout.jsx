@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { saveShippingAddress } from './services/shippingService';
+import { useCart } from './CartContext';
 
 const STATUS = {
     IDLE: 'IDLE',
@@ -14,11 +15,12 @@ const emptyAddress = {
     country: "",
 };
 
-export default function Checkout({ emptyCart }) {
+export default function Checkout() {
     const [address, setAddress] = useState(emptyAddress);
     const [status, setStatus] = useState(STATUS.IDLE);
     const [saveError, setSaveError] = useState(null);
     const [touched, setTouched] = useState({});
+    const { dispatch: emptyCart } = useCart();
 
     // Derived state
     const errors = getErrors(address);
