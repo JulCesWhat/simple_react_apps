@@ -14,7 +14,7 @@ const emptyAddress = {
     country: "",
 };
 
-export default function Checkout({ cart, emptyCart }) {
+export default function Checkout({ emptyCart }) {
     const [address, setAddress] = useState(emptyAddress);
     const [status, setStatus] = useState(STATUS.IDLE);
     const [saveError, setSaveError] = useState(null);
@@ -50,7 +50,7 @@ export default function Checkout({ cart, emptyCart }) {
         if (isValid) {
             try {
                 await saveShippingAddress(address);
-                emptyCart();
+                emptyCart({ type: 'empty' });
                 setStatus(STATUS.COMPLETED);
             } catch (e) {
                 setSaveError(e);

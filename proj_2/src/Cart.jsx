@@ -24,7 +24,7 @@ export default function Cart({ cart, updateQuantity }) {
                     <p>
                         <select
                             aria-label={`Select quantity for ${name} size ${size}`}
-                            onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
+                            onChange={(e) => updateQuantity({ type: 'updateQuantity', sku, quantity: parseInt(e.target.value) })}
                             value={quantity} >
                             <option value="0">Remove</option>
                             <option value="1">1</option>

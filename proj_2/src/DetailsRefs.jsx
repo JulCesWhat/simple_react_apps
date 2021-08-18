@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from './services/useFetch';
 import Spinner from './Spinner';
@@ -6,9 +6,9 @@ import PageNotFound from './PageNotFound'
 
 export default function Details({ addToCart }) {
     const { id } = useParams();
+    const skuRef = useRef();
     const { data: product, loading, error } = useFetch(`products/${id}`);
     const navigate = useNavigate();
-    const [sku, setSku] = useState('');
 
     if (loading) return <Spinner />;
     if (!product) return <PageNotFound />;
@@ -19,7 +19,9 @@ export default function Details({ addToCart }) {
             <h1>{product.name}</h1>
             <p>{product.description}</p>
             <p id="price">${product.price}</p>
-            <select id="size" value={sku} onChange={(e) => (setSku(e.target.value))}>
+            <select
+                id="size"
+                ref={skuRef}>
                 <option value="">All sizes</option>
                 {
                     product.skus.map((s) => (
@@ -28,10 +30,14 @@ export default function Details({ addToCart }) {
                 }
             </select>
             <p>
-                <button disabled={!sku} className="btn btn-primary" onClick={() => {
-                    addToCart({ type: 'add', id, sku })
-                    navigate('/cart');
-                }}>Add to Cart</button>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                        const sku = skuRef.current.value;
+                        if (!sku) return alert('Select size.');
+                        addToCart(id, sku);
+                        navigate('/cart');
+                    }}>Add to Cart</button>
             </p>
             <img src={`/images/${product.image}`} />
         </div>
