@@ -8,7 +8,7 @@ import { newCourse } from '../../../tools/mockData';
 import Spinner from '../common/Spinner';
 import { toast } from 'react-toastify';
 
-function ManageCoursePage({ courses, authors, loadCourses, saveCourse, loadAuthors, history, ...props }) {
+export function ManageCoursePage({ courses, authors, loadCourses, saveCourse, loadAuthors, history, ...props }) {
     const [course, setCourse] = useState(props.course);
     const [errors, setErrors] = useState({});
     const [saving, setSaving] = useState(false);
@@ -42,9 +42,9 @@ function ManageCoursePage({ courses, authors, loadCourses, saveCourse, loadAutho
         const {title, authorId, category} = course;
         const errors = {};
 
-        if (!title) error.title = 'Title is required!';
-        if (!authorId) error.author = 'Author is required!';
-        if (!category) error.category = 'Category is required!';
+        if (!title) errors.title = 'Title is required!';
+        if (!authorId) errors.author = 'Author is required!';
+        if (!category) errors.category = 'Category is required!';
 
         setErrors({ ...errors });
         return Object.entries(errors).length === 0
