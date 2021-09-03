@@ -7,15 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "json-server": "json-server --watch db.json --port 4000 --delay 200"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "axios": "^0.21.1",
     "next": "^11.1.2",
+    "prop-types": "^15.7.2",
     "ract": "^0.0.1",
     "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
   }
 }

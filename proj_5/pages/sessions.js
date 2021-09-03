@@ -1,15 +1,15 @@
-import axios from 'axios';
 import React from 'react';
-import Link from 'next/link';
+import propTypes from 'prop-types';
+import axios from 'axios';
 
 class Index extends React.Component {
 
     static async getInitialProps() {
-        return axios.get('http://localhost:4000/speakers')
+        return axios.get('http://localhost:4000/sessions')
             .then((res) => {
                 return {
                     hasErrored: false,
-                    speakerData: res.data
+                    sessionsData: res.data
                 };
             }).catch((error) => {
                 return {
@@ -24,32 +24,25 @@ class Index extends React.Component {
         this.state = {
             hasErrored: props.hasErrored,
             message: props.message,
-            speakerData: props.speakerData || []
+            sessionsData: props.sessionsData
         }
     }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
     render() {
         return (
             <div>
-                <Link href="/sessions">
-                    <a>SESSIONS</a>
-                </Link>
                 <ul>
-                {
-                    this.state.speakerData && this.state.speakerData.map((s) => {
-                        return <li key={s.id}>{s.firstName} {s.lastName}</li>
-                    })
-                }
-            </ul>
+                    {
+                        this.state.sessionsData && this.state.sessionsData.map((s) => {
+                            return <li key={s.id}>{s.title} {s.id}</li>
+                        })
+                    }
+                </ul>
             </div>
         );
     }
-}
+} 
+
+Index.propTypes = {};
+Index.defaultProps = {};
 
 export default Index;
