@@ -1,4 +1,4 @@
 /proj_1/.next
-/proj_1/node_modules
 
-/proj_4/*/node_modules
+/*/node_modules
+/*/*/node_modules
